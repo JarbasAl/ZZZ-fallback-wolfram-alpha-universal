@@ -25,11 +25,12 @@ from requests import HTTPError
 
 from mycroft.api import Api
 from mycroft.messagebus.message import Message
-from mycroft.skills.core import FallbackSkill
 from mycroft.util.log import getLogger
 from mycroft.util.parse import normalize
 
-__author__ = 'seanfitz'
+import sys
+sys.path.append(dirname(__file__))
+from auto_translatable import AutotranslatableFallback
 
 LOG = getLogger(__name__)
 
@@ -82,12 +83,13 @@ class WAApi(Api):
         return wolframalpha.Result(StringIO(data.content))
 
 
-class WolframAlphaSkill(FallbackSkill):
+class WolframAlphaSkill(AutotranslatableFallback):
     PIDS = ['Value', 'NotableFacts:PeopleData', 'BasicInformation:PeopleData',
             'Definition', 'DecimalApproximation']
 
     def __init__(self):
-        FallbackSkill.__init__(self, name="WolframAlphaSkill")
+        AutotranslatableFallback.__init__(self, name="WolframAlphaSkill")
+        self.input_lang = "en-us"
         self.__init_client()
         self.question_parser = EnglishQuestionParser()
 
