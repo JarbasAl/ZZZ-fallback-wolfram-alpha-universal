@@ -28,9 +28,13 @@ from mycroft.messagebus.message import Message
 from mycroft.util.log import getLogger
 from mycroft.util.parse import normalize
 
-import sys
-sys.path.append(dirname(__file__))
-from auto_translatable import AutotranslatableFallback
+try:
+    from mycroft.skills.auto_translatable import AutotranslatableFallback
+except ImportError:
+    from os.path import dirname
+    import sys
+    sys.path.append(dirname(__file__))
+    from auto_translatable import AutotranslatableFallback
 
 LOG = getLogger(__name__)
 
