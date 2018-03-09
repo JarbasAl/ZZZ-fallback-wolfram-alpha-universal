@@ -97,7 +97,7 @@ class WolframAlphaSkill(AutotranslatableFallback):
     def get_intro_message(self):
         name = "wolfram alpha"
         return "you installed universal " + name + " skill, you should " \
-               "also remove or blacklist the official " + name + \
+               "also blacklist the official " + name + \
                " skill to avoid potential problems"
 
     def __init_client(self):
