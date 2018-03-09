@@ -109,6 +109,7 @@ class WolframAlphaSkill(AutotranslatableFallback):
         else:
             # use the default API for Wolfram queries
             self.client = WAApi()
+        print appID
 
     def initialize(self):
         self.register_fallback(self.handle_fallback, 10)
@@ -133,9 +134,7 @@ class WolframAlphaSkill(AutotranslatableFallback):
     def handle_fallback(self, message):
         utt = message.data.get('utterance')
         self.log.debug("WolframAlpha fallback attempt: " + utt)
-        lang = message.data.get('lang')
-        if not lang:
-            lang = "en-us"
+        lang = self.input_lang
 
         # TODO: Localization.  Wolfram only allows queries in English,
         #       so perhaps autotranslation or other languages?  That
@@ -143,7 +142,7 @@ class WolframAlphaSkill(AutotranslatableFallback):
         #       which is a lot of room for introducting translation
         #       issues.
 
-        utterance = normalize(utt, lang, remove_articles=False)
+        utterance = normalize(utt, lang, remove_articles=False).lower()
         parsed_question = self.question_parser.parse(utterance)
 
         query = utterance
@@ -216,7 +215,7 @@ class WolframAlphaSkill(AutotranslatableFallback):
         text = re.sub(r"!", r",factorial", text)
 
         with open(join(dirname(__file__), 'regex',
-                       self.lang, 'list.rx'), 'r') as regex:
+                       "en-us", 'list.rx'), 'r') as regex:
             list_regex = re.compile(regex.readline())
 
         match = list_regex.match(text)
