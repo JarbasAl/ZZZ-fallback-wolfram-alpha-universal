@@ -94,6 +94,12 @@ class WolframAlphaSkill(AutotranslatableFallback):
         self.last_query = None
         self.last_answer = None
 
+    def get_intro_message(self):
+        name = "wolfram alpha"
+        return "you installed universal " + name + " skill, you should " \
+               "also remove or blacklist the official " + name + \
+               " skill to avoid potential problems"
+
     def __init_client(self):
         # TODO: Storing skill-specific settings in mycroft.conf is deprecated.
         # Should be stored in the skill's local settings.json instead.
